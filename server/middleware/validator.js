@@ -1,66 +1,199 @@
 class validator {
-
   /**
-   * check if request body contains required parameters
-   * @param {...String} params - required parameters 
+   * checks if request body contains required keys
+   * @param {...String} params - required parameters
    * @param {object} req - api request
    * @param {object} res - api response
-   * @param {function} next - next middleware function 
-   * @returns {json} 
-  */
+   * @param {function} next - next middleware function
+   * @returns {undefined}
+   */
   static checkBodyContains(...params) {
-    return (req, res, next) => {
-      console.log(req.body);
-      for(let p of params) {
-        // removes white space from input string, to make string a valid request body key
-        // so input string can be displayed as an error message if needed
+    return (req, _res, next) => {
+      for (let p of params) {
+        // removes white space from param string, to make string a valid request body key
+        // so param string can be displayed as an error message if needed
         // e.g 'first name' ==> firstname
         // req.body[firstname]
-        // e.g Error 'first name is required' 
-        const temp = p.replace(' ','');
-        
-        if(req.body[temp] === undefined) {
+        // e.g Error 'first name is required'
+        const temp = p.replace(" ", "");
+
+        if (req.body[temp] === undefined) {
           const err = new Error();
           err.message = `${p} is required`;
-          err.statusCode = 401;
+          err.statusCode = 400;
           return next(err);
         }
-
-        return next();
-
       }
-    }
+
+      return next();
+    };
   }
 
   /**
-   * check if input fields are not empty
+   * checks if request body keys are not empty
    * @param {...string} params - required fields
    * @param {object} req - api request
    * @param {object} res - api response
    * @param {function} next - next middleware
-   * @returns {json}
+   * @returns {undefined}
    */
   static checkBodyNotEmpty(...params) {
-    return (req, res, next) => {
-      for(let p of params) {
-        // removes white space from input string, to make string a valid request body key
-        // so input string can be displayed as an error message if needed
+    return (req, _res, next) => {
+      for (let p of params) {
+        // removes white space from param string, to make string a valid request body key
+        // so param string can be displayed as an error message if needed
         // e.g 'first name' ==> firstname
         // req.body[firstname]
-        // e.g Error 'first name is cannot be empty' 
-        const temp = p.replace(' ','');
+        // e.g Error 'first name is cannot be empty'
+        const temp = p.replace(" ", "");
 
-        if(req.body[p] == (null || '' || ' ')) {
+        if (req.body[temp] === "") {
           const err = new Error();
           err.message = `${p} cannot be empty`;
-          err.statusCode = 401;
+          err.statusCode = 400;
           return next(err);
-        } 
-
-        return next();
+        }
       }
-    }
+
+      return next();
+    };
   }
 
+  /**
+   * checks if request body keys are valid strings
+   * @param {object} req - api request
+   * @param {object} res - api response
+   * @param {function} next - next middleware function
+   * @returns {undefined}
+   */
+  static checkBodyValidString(...params) {
+    return (req, _res, next) => {
+      for (let p of params) {
+        // removes white space from param string, to make string a valid request body key
+        // so param string can be displayed as an error message if needed
+        // e.g 'first name' ==> firstname
+        // req.body[firstname]
+        // e.g Error 'first name is cannot be empty'
+        const temp = p.replace(" ", "");
+        const regex = /\w/;
+        if (regex.test(req.body[temp]) !== true) {
+          const err = new Error();
+          err.message = `${p} is not a vaild string`;
+          err.statusCode = 400;
+          return next(err);
+        }
+      }
 
-}module.exports = validator;
+      return next();
+    };
+  }
+
+  /**
+   *checks if request body keys are valid integers
+   * @param {object} req - api request
+   * @param {object} res - api response
+   * @param {function} next - next middleware function
+   * @returns {undefined}
+   */
+  static checkBodyValidInteger(...params) {
+    return (req, _res, next) => {
+      for (let p of params) {
+        // removes white space from param string, to make string a valid request body key
+        // so param string can be displayed as an error message if needed
+        // e.g 'first name' ==> firstname
+        // req.body[firstname]
+        // e.g Error 'first name is cannot be empty'
+        const temp = p.replace(" ", "");
+        const regex = /\D/;
+        if (regex.test(req.body[temp]) === true) {
+          const err = new Error();
+          err.message = `${p} is not a vaild integer`;
+          err.statusCode = 400;
+          return next(err);
+        }
+      }
+
+      return next();
+    };
+  }
+
+  /**
+   * checks if request body keys length, are not lesser than minimum 
+   * @param {...String} - required paramaters
+   * @param {object} req - api request
+   * @param {object} res - api response
+   * @param {function} next - next middleware function
+   * @returns {undefined}
+   */
+  static checkBodyMinValue(min, ...params) {
+    return (req, _res, next) => {
+      for (let p of params) {
+        // removes white space from param string, to make string a valid request body key
+        // so param string can be displayed as an error message if needed
+        // e.g 'first name' ==> firstname
+        // req.body[firstname]
+        // e.g Error 'first name is cannot be empty'
+        const temp = p.replace(" ", "");
+        if (req.body[temp].length < min) {
+          const err = new Error();
+          err.message = `minimum value for  ${p} is ${min}`;
+          err.statusCode = 400;
+          return next(err);
+        }
+      }
+
+      return next();
+    };
+  }
+
+  /**
+   * checks if request body keys length are not greater than maximum
+   * @param {...String} params - required parameters
+   * @param {object} req - api request
+   * @param {object} res - api response
+   * @param {function} next - next middleware function
+   * @returns {undefined}
+   */
+  static checkBodyMaxValue(max, ...params) {
+    return (req, _res, next) => {
+      for (let p of params) {
+        // removes white space from param string, to make string a valid request body key
+        // so param string can be displayed as an error message if needed
+        // e.g 'first name' ==> firstname
+        // req.body[firstname]
+        // e.g Error 'first name is cannot be empty'
+        const temp = p.replace(" ", "");
+        if (req.body[temp].length > max) {
+          const err = new Error();
+          err.message = `maximum value for  ${p} is ${max}`;
+          err.statusCode = 400;
+          return next(err);
+        }
+      }
+
+      return next();
+    };
+  }
+
+  /**
+   * checks if email is a valid one
+   * @param {object} req - api request
+   * @param {object} res - api response
+   * @param {function} next - next middleware function
+   * @returns {json}
+   */
+  static checkEmailValid(req, res, next) {
+    const { email } = req.body;
+    const regex = /\w+@\w+\.\w{3}/;
+
+    if (regex.test(email) !== true) {
+      const err = new Error();
+      err.statusCode = 400;
+      err.message = "invalid email address";
+      return next(err);
+    }
+
+    return next();
+  }
+}
+module.exports = validator;
