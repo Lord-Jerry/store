@@ -176,6 +176,26 @@ class validator {
   }
 
   /**
+   * checks if passwords match
+   * @param {object} req - api request 
+   * @param {object} res - api response
+   * @param {function} next - next middleware function
+   * @returns {undefined}
+   */
+  static checkPasswordsMatch(req, _res, next) {
+    const { password, password2 } = req.body;
+    
+    if(password !== password2) {
+      const err = new Error();
+      err.message = 'passwords do not match';
+      err.statusCode = 400;
+      return next(err);
+    }
+
+    return next();
+  }
+
+  /**
    * checks if email is a valid one
    * @param {object} req - api request
    * @param {object} res - api response
@@ -195,5 +215,7 @@ class validator {
 
     return next();
   }
+
+
 }
 module.exports = validator;
