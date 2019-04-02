@@ -143,7 +143,7 @@ class validator {
         const temp = p.replace(' ', '');
         if (req.body[temp].length < min) {
           const err = new Error();
-          err.message = `minimum value for ${p} is ${min}`;
+          err.message = `minimum length for ${p} is ${min}`;
           err.statusCode = 400;
           return next(err);
         }
