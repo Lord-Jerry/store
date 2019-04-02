@@ -20,8 +20,6 @@ class user {
     let { password } = req.body;
     password = bcrypt.hashSync(password, 10);
 
-    /* eslint-disable no-console */
-    console.log(password);
     const data = new Users({
       name: {
         first: firstname,
@@ -44,7 +42,6 @@ class user {
 
     return res.status(201).json({
       message: 'user account created successfully',
-      result,
       statusCode: 201,
     });
   }
