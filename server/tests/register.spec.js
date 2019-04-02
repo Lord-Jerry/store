@@ -164,7 +164,7 @@ describe('validate registration input', () => {
     chai.request(server)
       .post(url)
       .send({
-        firstname: 'jay',
+        firstname: 'jeremiah',
         lastname: '',
         username: '',
         email: '',
@@ -186,8 +186,8 @@ describe('validate registration input', () => {
     chai.request(server)
       .post(url)
       .send({
-        firstname: 'jay',
-        lastname: 'jay',
+        firstname: 'jeremiah',
+        lastname: 'samuel',
         username: '',
         email: '',
         gender: '',
@@ -208,9 +208,9 @@ describe('validate registration input', () => {
     chai.request(server)
       .post(url)
       .send({
-        firstname: 'jay',
-        lastname: 'jay',
-        username: 'jay',
+        firstname: 'jeremiah',
+        lastname: 'samuel',
+        username: 'sammyjay',
         email: '',
         gender: '',
         password: '',
@@ -230,10 +230,10 @@ describe('validate registration input', () => {
     chai.request(server)
       .post(url)
       .send({
-        firstname: 'jay',
-        lastname: 'jay',
-        username: 'jay',
-        email: 'jay',
+        firstname: 'jeremiah',
+        lastname: 'samule',
+        username: 'sammyjay',
+        email: 'sammyjay@yahoo.com',
         gender: '',
         password: '',
         password2: '',
@@ -252,11 +252,11 @@ describe('validate registration input', () => {
     chai.request(server)
       .post(url)
       .send({
-        firstname: 'jay',
-        lastname: 'jay',
-        username: 'jay',
-        email: 'jay',
-        gender: 'jay',
+        firstname: 'jeremiah',
+        lastname: 'samuel',
+        username: 'sammyjay',
+        email: 'sammyjay@yahoo.com',
+        gender: 'male',
         password: '',
         password2: '',
       })
@@ -274,18 +274,18 @@ describe('validate registration input', () => {
     chai.request(server)
       .post(url)
       .send({
-        firstname: 'ja',
-        lastname: 'fsnfb',
-        username: 'snbf',
-        email: 'fsf',
-        gender: 'nfsnn',
-        password: 'snfs',
-        password2: 'snn',
+        firstname: 'je',
+        lastname: 'sa',
+        username: 'sa',
+        email: 'sa',
+        gender: 'ma',
+        password: 'ja',
+        password2: '',
       })
       .end((err, res) => {
         console.log(res.body);
         res.should.have.status(400);
-        res.body.message.should.be.equal('minimum value for first name is 3');
+        res.body.message.should.be.equal('minimum length for first name is 3');
         done();
       });
   });
@@ -296,18 +296,18 @@ describe('validate registration input', () => {
     chai.request(server)
       .post(url)
       .send({
-        firstname: 'jay',
-        lastname: 'ja',
-        username: 'dggg',
-        email: 'ghhjgj',
-        gender: 'hgj',
-        password: 'fhsd',
-        password2: 'hshhhs',
+        firstname: 'jeremiah',
+        lastname: 'sa',
+        username: 'sa',
+        email: 'sa',
+        gender: 'sa',
+        password: 'sa',
+        password2: '',
       })
       .end((err, res) => {
         console.log(res.body);
         res.should.have.status(400);
-        res.body.message.should.be.a('string');
+        res.body.message.should.be.equal('minimum length for last name is 3');
         done();
       });
   });
@@ -318,40 +318,18 @@ describe('validate registration input', () => {
     chai.request(server)
       .post(url)
       .send({
-        firstname: 'jay',
-        lastname: 'jay',
-        username: 'dg',
-        email: 'ghhjgj',
-        gender: 'hgj',
-        password: 'fhsd',
-        password2: 'hshhhs',
+        firstname: 'jeremiah',
+        lastname: 'samuel',
+        username: 'sa',
+        email: 'sa',
+        gender: 'sa',
+        password: 'sa',
+        password2: '',
       })
       .end((err, res) => {
         console.log(res.body);
         res.should.have.status(400);
-        res.body.message.should.be.a('string');
-        done();
-      });
-  });
-});
-
-describe('validate registration input', () => {
-  it('should check if registration is valid if email length is lesser than 3', (done) => {
-    chai.request(server)
-      .post(url)
-      .send({
-        firstname: 'jay',
-        lastname: 'jay',
-        username: 'dggg',
-        email: 'gh',
-        gender: 'hgj',
-        password: 'fhsd',
-        password2: 'hshhhs',
-      })
-      .end((err, res) => {
-        console.log(res.body);
-        res.should.have.status(400);
-        res.body.message.should.be.a('string');
+        res.body.message.should.be.equal('minimum length for username is 3');
         done();
       });
   });
@@ -362,18 +340,18 @@ describe('validate registration input', () => {
     chai.request(server)
       .post(url)
       .send({
-        firstname: 'jay',
-        lastname: 'jay',
-        username: 'dggg',
-        email: 'ghhjgj',
+        firstname: 'jeremiah',
+        lastname: 'samuel',
+        username: 'sammyjay',
+        email: 'sammyjay@yahoo.com',
         gender: 'hgt',
-        password: 'fhsd',
-        password2: 'hshhhs',
+        password: 'sa',
+        password2: '',
       })
       .end((err, res) => {
         console.log(res.body);
         res.should.have.status(400);
-        res.body.message.should.be.a('string');
+        res.body.message.should.be.equal('minimum length for gender is 4');
         done();
       });
   });
@@ -384,20 +362,124 @@ describe('validate registration input', () => {
     chai.request(server)
       .post(url)
       .send({
-        firstname: 'jay',
-        lastname: 'jay',
-        username: 'dggg',
-        email: 'ghhjgj',
-        gender: 'hgjd',
+        firstname: 'jeremiah',
+        lastname: 'samuel',
+        username: 'sammyjay',
+        email: 'sammyjay@yahoo.com',
+        gender: 'male',
         password: 'fh',
-        password2: 'hshhhs',
+        password2: '',
       })
       .end((err, res) => {
         console.log(res.body);
         res.should.have.status(400);
-        res.body.message.should.be.a('string');
+        res.body.message.should.be.equal('minimum length for password is 6');
         done();
       });
   });
 });
 
+describe('validate user registration', () => {
+  it('check if registration is valid if gender is an invalid one', (done) => {
+    chai.request(server)
+      .post(url)
+      .send({
+        firstname: 'Jeremiah',
+        lastname: 'Ajayi',
+        username: 'lovinerry',
+        email: 'lovinjerry004@yahoo.com',
+        gender: 'famale',
+        password: 'hey there',
+        password2: '',
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.message.should.be.equal('invalid gender');
+        done();
+      });
+  });
+});
+
+describe('validate user registration', () => {
+  it('check if registration is valid if email is invalid', (done) => {
+    chai.request(server)
+      .post(url)
+      .send({
+        firstname: 'jeremiah',
+        lastname: 'samuel',
+        username: 'sammyjay',
+        gender: 'male',
+        email: 'sammyjay',
+        password: 'hey there',
+        password2: '',
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.message.should.be.equal('invalid email address');
+        done();
+      });
+  });
+});
+
+describe('validate user registration', () => {
+  it('check if username already exists in database', (done) => {
+    chai.request(server)
+      .post(url)
+      .send({
+        firstname: 'jeremiah',
+        lastname: 'samuel',
+        username: 'lovinjerry',
+        gender: 'male',
+        email: 'sammyjay@yahoo.com',
+        password: 'hey there',
+        password2: '',
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.message.should.be.equal('username already exists');
+        done();
+      });
+  });
+});
+
+describe('validate user registration', () => {
+  it('check if email already exists in database', (done) => {
+    chai.request(server)
+      .post(url)
+      .send({
+        firstname: 'jeremiah',
+        lastname: 'samuel',
+        username: 'lovinjerry1',
+        gender: 'male',
+        email: 'lovinjerry004@gmail.com',
+        password: 'hey there',
+        password2: '',
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.message.should.be.equal('email already exists');
+        done();
+      });
+  });
+});
+
+describe('validate user registration', () => {
+  it('check if registration is valid if passwords do not match', (done) => {
+    chai.request(server)
+      .post(url)
+      .send({
+        firstname: 'jeremiah',
+        lastname: 'samuel',
+        username: 'lovinjerry1',
+        gender: 'male',
+        email: 'lovinjerry1004@gmail.com',
+        password: 'hey there',
+        password2: 'hey the',
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.message.should.be.equal('passwords do not match');
+        done();
+      });
+  });
+});
