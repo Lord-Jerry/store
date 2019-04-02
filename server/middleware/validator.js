@@ -245,7 +245,6 @@ class validator {
   }
 
   /**
-   * TODO: implement this
    * checks if email exists
    * @param {object} req - api request
    * @param {object} res - api response
@@ -261,14 +260,13 @@ class validator {
       const err = new Error();
       err.message = 'email already exists';
       err.statusCode = 400;
-      next(err);
+      return next(err);
     }
 
-    next();
+    return next();
   }
 
   /**
-   * TODO: impement this
    * check if username exists
    * @param {object} req - api request
    * @param {object} res - api response
@@ -285,10 +283,10 @@ class validator {
       const err = new Error();
       err.message = 'username already exists';
       err.statusCode = 400;
-      next(err);
+      return next(err);
     }
 
-    next();
+    return next();
   }
 }
 module.exports = validator;

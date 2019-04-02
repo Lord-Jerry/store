@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const Users = require('../models/users.js');
 
 class user {
@@ -7,7 +8,7 @@ class user {
    * @param {object} req - api request
    * @param {object} res - api response
    * @param {function} next - next middleware function
-   * @returns {json}
+   * @return {json}
    */
   static async createAccount(req, res, next) {
     const {
@@ -43,6 +44,52 @@ class user {
     return res.status(201).json({
       message: 'user account created successfully',
       statusCode: 201,
+    });
+  }
+
+  /**
+   * Log user in
+   * @param {object} req - api request
+   * @param {object} res - api response
+   * @param {function} next - next middleware function
+   * @return {json}
+   */
+  static async loginUser(req, res, next) {
+    const { email, password } = req.body;
+    const result = await Users.findOne({
+      email,
+    });
+
+    if (!result) {
+      const err = new Error();
+      err.message = 'invalid email or password';
+      err.statusCode = 401;
+      return next(err);
+    }
+
+    const compare = await bcrypt.compare(password, result.password);
+
+    if (!compare) {
+      const err = new Error();
+      err.message = 'invalid email or password';
+      err.statusCode = 401;
+      return next(err);
+    }
+
+    // sign user token
+    const token = jwt.sign({
+      id: result.id,
+    },
+    process.env.SECRET_KEY, { expiresIn: '30d' });
+
+    // unset user password
+    result.password = undefined;
+
+    return res.status(200).json({
+      message: 'logged in',
+      statusCode: 200,
+      token,
+      result,
     });
   }
 }

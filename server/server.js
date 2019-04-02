@@ -30,6 +30,14 @@ app.use(router);
 // set error handler
 app.use(errorHandler);
 
+// 404 error
+app.use((_req, res) => {
+  res.status(400).json({
+    statusCode: 404,
+    message: 'api endpoint not found',
+  });
+});
+
 // set web server port
 app.listen(port, () => {
   /* eslint-disable no-console */

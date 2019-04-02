@@ -23,4 +23,13 @@ router
     controller.createAccount,
   );
 
+router
+  .route(`${url}/login`)
+  .post(
+    validator.checkBodyContains('email', 'password'),
+    validator.checkBodyNotEmpty('email', 'password'),
+    validator.checkEmailValid,
+    controller.loginUser,
+  );
+
 module.exports = router;
