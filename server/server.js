@@ -32,7 +32,7 @@ app.use(errorHandler);
 
 // 404 error
 app.use((_req, res) => {
-  res.status(400).json({
+  res.status(404).json({
     statusCode: 404,
     message: 'api endpoint not found',
   });
