@@ -79,6 +79,7 @@ class user {
     // sign user token
     const token = jwt.sign({
       id: result.id,
+      level: result.level,
     },
     process.env.SECRET_KEY, { expiresIn: '30d' });
 
