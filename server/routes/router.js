@@ -1,8 +1,11 @@
 const router = require('express').Router();
 const validator = require('../middleware/validator');
-const controller = require('../controllers/user');
+const userController = require('../controllers/user');
+const categoryController = require('../controllers/category');
 
 const url = '/api/v1';
+
+// POST REQUESTS
 
 router
   .route(`${url}/register`)
@@ -20,7 +23,7 @@ router
     validator.checkUserNameExists,
     validator.checkEmailExists,
     validator.checkPasswordsMatch,
-    controller.createAccount,
+    userController.createAccount,
   );
 
 router
@@ -29,7 +32,19 @@ router
     validator.checkBodyContains('email', 'password'),
     validator.checkBodyNotEmpty('email', 'password'),
     validator.checkEmailValid,
-    controller.loginUser,
+    userController.loginUser,
   );
+
+
+// GET REQUESTS
+router
+  .route(`${url}/category/all`)
+  .get(
+    categoryController.getCategories,
+  );
+
+// PUT REQUESTS
+
+// DELETE REQUESTS
 
 module.exports = router;
