@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const validator = require('../middleware/validator');
+const authenticate = require('../middleware/authentication');
 const userController = require('../controllers/user');
 const categoryController = require('../controllers/category');
 
@@ -33,6 +34,17 @@ router
     validator.checkBodyNotEmpty('email', 'password'),
     validator.checkEmailValid,
     userController.loginUser,
+  );
+
+router
+  .route(`${url}/category/create`)
+  .post(
+    authenticate.checkTokenExists,
+    authenticate.checkTokenValid,
+    authenticate.checkAdmin,
+    validator.checkBodyContains('name'),
+    validator.checkBodyNotEmpty('name'),
+    categoryController.createCategory,
   );
 
 
