@@ -2,7 +2,6 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-// TODO: properly rethink database structure
 const items = new Schema({
 
   name: {
@@ -13,10 +12,10 @@ const items = new Schema({
   },
 
   category: {
-    type: String,
+    type: mongoose.type.ObjectId,
+    ref: 'Category',
     required: true,
     unique: false,
-    maxlength: 50,
   },
 
   price: {
@@ -47,20 +46,10 @@ const items = new Schema({
   },
 
   seller: {
-    id: {
-      type: ObjectId,
-      required: true,
-      unique: false,
-    },
-
-    name: {
-      user: {
-        type: String,
-        required: true,
-        unique: false,
-        maxlength: 40,
-      },
-    },
+    type: mongoose.type.ObjectId,
+    ref: 'Users',
+    required: true,
+    unique: false,
   },
 
   images: [
@@ -76,16 +65,10 @@ const items = new Schema({
   review: [
     {
       user: {
-        id: {
-          type: Objectid,
-          required: true,
-          unique: false,
-        },
-        name: {
-          type: String,
-          required: true,
-          unique: false,
-        },
+        type: Objectid,
+        ref: 'Users',
+        required: true,
+        unique: false,
       },
 
       comment: {
